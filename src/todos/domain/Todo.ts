@@ -3,9 +3,9 @@ import { randomUUID } from 'crypto';
 export class Todo {
   private readonly id: string;
   private readonly title: string;
-  private isCompleted = false;
+  private completed = false;
 
-  constructor(title: string, id = randomUUID()) {
+  constructor(title: string, id: string = randomUUID()) {
     if (!title?.trim()) {
       throw new Error('El título no puede estar vacío');
     }
@@ -17,7 +17,7 @@ export class Todo {
   static restore(id: string, title: string, isCompleted: boolean): Todo {
     const todo = new Todo(title, id);
     if (isCompleted) {
-      todo.isCompleted = true;
+      todo.completed = true;
     }
     return todo;
   }
@@ -31,14 +31,14 @@ export class Todo {
   }
 
   isCompleted(): boolean {
-    return this.isCompleted;
+    return this.completed;
   }
 
   complete(): void {
-    if (this.isCompleted) {
+    if (this.completed) {
       throw new Error('La tarea ya está completada');
     }
 
-    this.isCompleted = true;
+    this.completed = true;
   }
 }

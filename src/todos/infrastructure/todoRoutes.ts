@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import { createTodo, listTodos, completeTodo } from './controllers/TodoController.js';
+import { createTodoController } from './controllers/TodoController.js';
+import type { TodoRepository } from '../application/ports/TodoRepository.js';
 
-export function createTodoRouter() {
+export function createTodoRouter(repository: TodoRepository) {
+  const controller = createTodoController(repository);
   const router = Router();
 
-  router.post('/todos', createTodo);
-  router.get('/todos', listTodos);
-  router.patch('/todos/:id/complete', completeTodo);
+  router.post('/todos', controller.createTodo);
+  router.get('/todos', controller.listTodos);
+  router.patch('/todos/:id/complete', controller.completeTodo);
 
   return router;
 }
